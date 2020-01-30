@@ -1,0 +1,35 @@
+a {
+  text-decoration: none;
+}
+.Card__container {
+  height: 400px;
+  max-width: 220px;
+  margin: 1.2rem;
+  margin-top: 0;
+  padding: 1.2rem;
+  border-radius: 25px;
+  background-color: powderblue;
+  .Card__content {
+    height: 100%;
+    color: plum;
+    border-radius: 15px;
+    background-color: floralwhite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    .Card__number {
+      &--large {
+        padding: 4rem;
+        font-size: calc(230px + 2vmin);
+      }
+      &--small {
+        padding: 0.4rem;
+        font-size: calc(10px + 2vmin);
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-all;
+      }
+    }
+  }
+}

@@ -11,13 +11,17 @@ a {
   background-color: powderblue;
   .Card__content {
     height: 100%;
-    color: plum;
     border-radius: 15px;
+    color: plum;
     background-color: floralwhite;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    &.active {
+      color: floralwhite;
+      background-color: plum;
+    }
     .Card__number {
       &--large {
         padding: 4rem;

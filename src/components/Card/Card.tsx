@@ -8,15 +8,17 @@ interface Props {
 
 const Card: React.FC<Props> = ({ children }) => {
   const { id } = useParams();
-  let content = null;
-  if (!children && id) {
-    content = id?.repeat(390);
+  let content = '';
+  let cls = 'Card__content'
+  if (id) {
+    content = id.repeat(390);
+    cls = 'Card__content active'
   }
   return (
     <div className="Card__container">
-      <div className="Card__content">
+      <div className={cls}>
         <div className="Card__number">
-          {content ? (
+          {id ? (
             <div className="Card__number--small">{content}</div>
           ) : (
             <div className="Card__number--large">{children}</div>

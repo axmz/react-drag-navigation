@@ -8,8 +8,8 @@ const Cards = () => {
   return (
     <>
         {data.map(item => (
-            <Link to={`/${item}`}> 
-              <Card key={item}>{item}</Card>
+            <Link key={item} to={`/${item}`}> 
+              <Card>{item}</Card>
             </Link>
         ))}
     </>

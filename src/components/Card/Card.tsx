@@ -17,7 +17,8 @@ const Card: React.FC<Props> = ({ children }) => {
   }
 
   return (
-    <DragWrapper>
+    // <DragWrapper>
+    <>
       {id ? (
         <Link to={`/`}>
           <div className="Card__container">
@@ -51,7 +52,8 @@ const Card: React.FC<Props> = ({ children }) => {
           </div>
         </div>
       )}
-    </DragWrapper>
+    </>
+    // </DragWrapper>
   );
 };
 

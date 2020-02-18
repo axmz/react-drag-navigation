@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { useLocation, Switch  } from "react-router-dom";
+import { useLocation, Switch } from "react-router-dom";
 import { useTransition, animated } from "react-spring";
 
 interface Props {
@@ -18,7 +18,9 @@ const TransitionWrapper: React.FC<Props> = ({ children }) => {
     <>
       {transitions.map(({ item, props, key }) => (
         <animated.div key={key} style={props}>
-          <Switch location={item}>{children}</Switch>
+          <Switch location={item}>
+            {children}
+          </Switch>
         </animated.div>
       ))}
     </>

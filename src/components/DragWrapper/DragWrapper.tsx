@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState, useCallback } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import { useDrag } from "react-use-gesture";
@@ -6,7 +6,6 @@ import clamp from "lodash.clamp";
 
 const DragWrapper: React.FC<{children: ReactNode}> = ({children}) => {
   const myRef = React.useRef(null);
-  const { id } = useParams();
   const history = useHistory();
   const [atTop, setAtTop] = useState(true);
 
@@ -23,17 +22,16 @@ const DragWrapper: React.FC<{children: ReactNode}> = ({children}) => {
     }
   }
 
-  const [props, set, stop] = useSpring(() => ({ x: 0, y: 0, scale: 1 }));
-  const { x, y, scale } = props;
+  const [props, set ] = useSpring(() => ({ x: 0, y: 0, scale: 1 }));
+  const { x, y } = props;
   const bind = useDrag(
     ({ event, cancel, last, down, movement: [mx, my] }) => {
       if (atTop) {
-        console.log("my", my);
-        console.log("last", last);
-        console.log("event", event);
+        // console.log("my", my);
+        // console.log("last", last);
+        // console.log("event", event);
         if (my < 150 && last && event?.type === "mouseup") {
           set({ x: 0, y: 0 });
-          console.log("here");
           event?.preventDefault();
           event?.stopPropagation();
         }
@@ -58,11 +56,10 @@ const DragWrapper: React.FC<{children: ReactNode}> = ({children}) => {
       style={{
         x,
         y,
-        scale: y.to(y => clamp(1 + y * 0.0015, 1, 2)),
-        opacity: y.to(y => clamp(1 - y * 0.0015, 0.1, 1)),
+        scale: y.to(y => clamp(1 + y * 0.005, 1, 2)),
+        opacity: y.to(y => clamp(1 - y * 0.008, 0.2, 1)),
         userSelect: y.to(v => (v > 0 ? "none" : "auto")),
         transformOrigin: "top center"
-        // touchAction: 'none'
       }}
     >
       {children}

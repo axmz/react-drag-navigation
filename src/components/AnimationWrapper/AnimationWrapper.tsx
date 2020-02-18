@@ -8,11 +8,9 @@ interface Props {
 
 const AnimationWrapper: React.FC<Props> = ({ children }) => {
   return (
-    <TransitionWrapper>
-      <DragWrapper>
-        {children}
-      </DragWrapper>
-    </TransitionWrapper>
+    <DragWrapper>
+      <TransitionWrapper>{children}</TransitionWrapper>
+    </DragWrapper>
   );
 };
 

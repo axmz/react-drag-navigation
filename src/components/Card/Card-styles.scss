@@ -1,16 +1,18 @@
 a {
   text-decoration: none;
 }
+.App__container{
+  width: 350px;
+}
 .Card__container {
-  height: 400px;
-  max-width: 220px;
-  margin: 1.2rem;
-  margin-top: 0;
+  height: 600px;
+  margin-bottom: 1.2rem;
   padding: 1.2rem;
   border-radius: 25px;
   background-color: powderblue;
   .Card__content {
     height: 100%;
+    width: 100%;
     border-radius: 15px;
     color: plum;
     background-color: floralwhite;
@@ -25,7 +27,7 @@ a {
     .Card__number {
       &--large {
         padding: 4rem;
-        font-size: calc(230px + 2vmin);
+        font-size: calc(200px + 2vmin);
       }
       &--small {
         padding: 0.4rem;

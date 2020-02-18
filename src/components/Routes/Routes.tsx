@@ -7,12 +7,12 @@ import Card from "../Card/Card";
 const Routes = () => {
   const location = useLocation();
   const transitions = useTransition(location, location => location.pathname, {
-    from: { transform: "translate3d(0,+10px,0)", scale: 0.9, opacity: 0 },
+    from: { transform: "translate3d(0,-100px,0)", scale: 0.65, opacity: 0 },
     enter: { transform: "translate3d(0,0px,0)", scale: 1, opacity: 1 },
-    leave: { transform: "translate3d(0,+10px,0)", scale: 0.9, opacity: 0 }
+    leave: { transform: "translate3d(0,-100px,0)", scale: 0.65, opacity: 0 }
   });
   return (
-    <div>
+    <div className='App__container'>
       {transitions.map(({ item, props, key }) => (
         <animated.div key={key} style={props}>
           <Switch location={item}>

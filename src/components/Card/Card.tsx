@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
-import DragWrapper from "../DragWrapper/DragWrapper";
 import "./Card-styles.scss";
 
 interface Props {
@@ -17,7 +16,6 @@ const Card: React.FC<Props> = ({ children }) => {
   }
 
   return (
-    // <DragWrapper>
     <>
       {id ? (
         <Link to={`/`}>
@@ -53,7 +51,6 @@ const Card: React.FC<Props> = ({ children }) => {
         </div>
       )}
     </>
-    // </DragWrapper>
   );
 };
 

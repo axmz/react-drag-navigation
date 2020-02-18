@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";

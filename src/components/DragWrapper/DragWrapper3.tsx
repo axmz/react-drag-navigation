@@ -24,8 +24,19 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
     }
   }
 
-  const [props, set] = useSpring(() => ({ x: 0, y: 0, scale: 1 }));
-  const { x, y } = props;
+  const [{ x, y, opacity, display }, set] = useSpring(() => ({
+    x: 0,
+    y: 0,
+    opacity: 1,
+    display: "block",
+    onRest: () => {
+      console.log("onRest");
+      // switchState(!state);
+    }
+  }));
+
+  useEffect(() => console.log('state',state), [state])
+
   const bind = useDrag(
     ({ event, cancel, last, down, movement: [mx, my] }) => {
       if (atTop) {
@@ -36,7 +47,9 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
         }
         if (my > 150 && !last) {
           // history.goBack();
-          cancel ? cancel() : console.log("nothing");
+          // switchState(false)
+          set({ opacity: 0, y: 900 });
+          // cancel ? cancel() : console.log("nothing");
         }
         set({ x: down ? mx : 0, y: down ? my : 0 });
       }
@@ -50,30 +63,32 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   // React.useEffect(bind, [bind]);
 
   const front = {
-    position: 'absolute' as "absolute",
+    position: "absolute" as "absolute",
+    display,
     // x,
     y,
     scale: y.to(y => clamp(1 + y * 0.0025, 1, 2)),
-    opacity: 1,
+    opacity,
+    filter: y.to(y => `brightness(${clamp(1 - y * 0.001, 0.7, 1) * 100}%)`),
     // opacity: y.to(y => clamp(1 - y * 0.008, 0.2, 1)),
     userSelect: y.to(v => (v > 0 ? "none" : "auto")),
     transformOrigin: "top center",
     zIndex: 20,
-    width: '350px'
+    width: "350px"
   };
 
   const back = {
-    position: 'absolute' as "absolute",
-    top: '300px',
-    y: y.to(y => clamp(0 - y * 2, -300, 100)),
-    // scale: y.to(y => clamp(1 + y * 0.005, 1, 2)),
+    position: "absolute" as "absolute",
+    top: "200px",
+    y: y.to(y => clamp(0 - y * 2, -200, 100)),
+    scale: y.to(y => clamp(0.5 + y * 0.0025, 0.5, 1)),
     opacity: y.to(y => clamp(0 + y * 0.008, 0.3, 1)),
-    // opacity: 1,
     userSelect: y.to(v => (v > 0 ? "none" : "auto")),
     transformOrigin: "top center",
     zIndex: 10,
-    width: '350px'
+    width: "350px"
   };
+
   const style1 = state ? front : back;
   const style2 = state ? back : front;
 

@@ -1,4 +1,10 @@
-import React, { ReactNode, useEffect, useState, useRef, useCallback } from "react";
+import React, {
+  ReactNode,
+  useEffect,
+  useState,
+  useRef,
+  useCallback
+} from "react";
 import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
@@ -39,8 +45,18 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
         y: 0,
         scale: 1,
         opacity: 1,
-        zIndex: 1000 - i,
-        display: 'block',
+        zIndex: 1002,
+        display: "block"
+      };
+    }
+    if (i === next()) {
+      return {
+        y: 0,
+        // top: `${i * 100}px`,
+        scale: 0.5,
+        opacity: 1,
+        display: "block",
+        zIndex: 1001
       };
     }
     return {
@@ -48,8 +64,8 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
       y: 0,
       scale: 0.5,
       opacity: 1,
-      zIndex: 1000 - i,
-      display: "none",
+      zIndex: 1000,
+      display: "none"
     };
   });
 
@@ -64,7 +80,8 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
               y: down ? my : 0,
               scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1,
               // filter: down ? `brightness(${clamp(1 - my * 0.001, 0.7, 1) * 100}%)`: 'none',
-              display: "block"
+              display: "block",
+              zIndex: 1002
             };
           }
           if (i === next()) {
@@ -72,29 +89,21 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
               y: down ? clamp(0 - my * 2, 0, 100) : 0,
               // top: `${i * 100}px`,
               opacity: 1,
-              zIndex: 1000 - i,
               scale: down ? clamp(0.5 + my * 0.0025, 0.5, 1) : 0.5,
-              display: "block"
+              display: "block",
+              zIndex: 1001
             };
           }
           return {
-            display: "none"
+            display: "none",
+            zIndex: 1000
           };
         });
 
         // exit
         if (my > 150 && !last) {
-          top.current = next();
           if (cancel) cancel();
-          // set(i => {
-          //   if (i === top.current) {
-          //     return {
-          //       opacity: 0.2,
-          //       scale: 5
-          //     };
-          //   }
-          //   return {};
-          // });
+          top.current = next();
         }
       }
     }

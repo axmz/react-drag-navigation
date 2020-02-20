@@ -1,6 +1,6 @@
 import React from "react";
 import DragWrapper from "../DragWrapper/DragWrapper4";
-import Card from "../Card/Card";
+import Card from "../../../components/Card/Card";
 
 const Test = () => {
   return (

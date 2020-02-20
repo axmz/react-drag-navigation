@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
-import Routes from "./components/Routes/Routes";
+import WithTransition from "./pages/WithTransition";
+import WithoutTransition from "./pages/WithoutTransition";
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -11,7 +12,8 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Router>
-        <Routes />
+        <WithoutTransition />
+        {/* <WithTransition /> */}
       </Router>
     </div>
   );

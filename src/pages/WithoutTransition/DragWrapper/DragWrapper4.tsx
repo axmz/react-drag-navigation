@@ -8,8 +8,9 @@ import React, {
 import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
-import Card from "../Card/Card";
+import Card from "../../../components/Card/Card";
 import styles from "./drag.module.scss";
+import { useHistory } from "react-router-dom";
 
 const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [atTop, setAtTop] = useState(true);
@@ -17,10 +18,9 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   const l = arr.length;
   const last = l - 1;
   const top = useRef(0);
+  const history = useHistory();
 
   const next = useCallback(() => {
-    // console.log("works");
-    // console.log("top", top);
     return top.current + 1 > last ? 0 : top.current + 1;
   }, [top.current]);
 
@@ -76,10 +76,11 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
         set(i => {
           if (i === top.current) {
             return {
-              x: down ? mx : 0,
+              // x: down ? mx : 0,
               y: down ? my : 0,
               scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1,
               // filter: down ? `brightness(${clamp(1 - my * 0.001, 0.7, 1) * 100}%)`: 'none',
+              //   userSelect: y.to(v => (v > 0 ? "none" : "auto")),
               display: "block",
               zIndex: 1002
             };
@@ -87,6 +88,7 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
           if (i === next()) {
             return {
               y: down ? clamp(0 - my * 2, 0, 100) : 0,
+              //   y: y.to(y => clamp(0 - y * 2, -200, 100)),
               // top: `${i * 100}px`,
               opacity: 1,
               scale: down ? clamp(0.5 + my * 0.0025, 0.5, 1) : 0.5,
@@ -104,42 +106,12 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
         if (my > 150 && !last) {
           if (cancel) cancel();
           top.current = next();
+          history.push("/test/1");
+          console.log("go back");
         }
       }
     }
   );
-
-  // const front = {
-  //   display,
-  //   // x,
-  //   y,
-  //   scale: y.to(y => clamp(1 + y * 0.0025, 1, 2)),
-  //   opacity,
-  //   filter: y.to(y => `brightness(${clamp(1 - y * 0.001, 0.7, 1) * 100}%)`),
-  //   // opacity: y.to(y => clamp(1 - y * 0.008, 0.2, 1)),
-  //   userSelect: y.to(v => (v > 0 ? "none" : "auto")),
-  //   transformOrigin: "top center",
-  //   position: "absolute" as "absolute",
-  //   zIndex: 20,
-  //   width: "350px"
-  // };
-
-  // const back = {
-  //   position: "absolute" as "absolute",
-  //   top: "200px",
-  //   y: y.to(y => clamp(0 - y * 2, -200, 100)),
-  //   scale: y.to(y => clamp(0.5 + y * 0.0025, 0.5, 1)),
-  //   opacity: y.to(y => clamp(0 + y * 0.008, 0.3, 1)),
-  //   userSelect: y.to(v => (v > 0 ? "none" : "auto")),
-  //   transformOrigin: "top center",
-  //   zIndex: 10,
-  //   width: "350px"
-  // };
-
-  // const style1 = state ? front : back;
-  // const style2 = state ? back : front;
-
-  // springs.map(s => console.log(s));
 
   return (
     <>

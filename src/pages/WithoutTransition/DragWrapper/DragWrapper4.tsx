@@ -5,29 +5,26 @@ import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
 import Card from "../../WithoutTransition/Card/Card";
 import styles from "./drag.module.scss";
-if (process.env.NODE_ENV === "development") {
   const whyDidYouRender = require("@welldone-software/why-did-you-render");
   whyDidYouRender(React);
-}
 
-type Props = {children: ReactNode} & {whyDidYouRender?: any}
-const DragWrapper: React.FC<Props> = ({
-  children
-}) => {
-  console.log("render");
+type Props = { children: ReactNode } & { whyDidYouRender?: any };
+const DragWrapper: React.FC<Props> = ({ children }) => {
   const [atTop, setAtTop] = useState(true);
   const arr = [1, 2, 3];
   const l = arr.length;
   const last = l - 1;
-  const top = useRef(0);
-  // const [top, setTop] = useState(true);
+  const [top, setTop] = useState(0);
   const history = useHistory();
 
-  const next = useMemo(() => {
-    const next = top.current + 1 > last ? 0 : top.current + 1;
-    console.log("next", next);
-    return next;
-  }, [top]);
+  const next = top + 1 > last ? 0 : top + 1;
+  // const next = useMemo(() => {
+  //   const next = top + 1 > last ? 0 : top + 1;
+  //   console.log("next", next);
+  //   return next;
+  // }, [top]);
+  console.log("render");
+  console.log("next", next);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollListener);
@@ -70,7 +67,7 @@ const DragWrapper: React.FC<Props> = ({
   };
 
   const [springs, set] = useSprings(3, i => {
-    if (i === top.current) {
+    if (i === top) {
       return {
         ...topStyle
       };
@@ -89,7 +86,7 @@ const DragWrapper: React.FC<Props> = ({
     ({ args: [index], event, cancel, last, down, movement: [mx, my] }) => {
       if (atTop) {
         set(i => {
-          if (i === top.current) {
+          if (i === top) {
             return {
               ...topStyle,
               // filter: down ? `brightness(${clamp(1 - my * 0.001, 0.7, 1) * 100}%)`: 'none',
@@ -113,7 +110,7 @@ const DragWrapper: React.FC<Props> = ({
         // exit
         if (my > 150 && !last) {
           // set(i => {
-          //   if (i === top.current) {
+          //   if (i === top) {
           //     return {
           //       zIndex: 100
           //       // display: 'none'
@@ -121,7 +118,7 @@ const DragWrapper: React.FC<Props> = ({
           //   }
           //   return {};
           // });
-          top.current = next;
+          setTop(next);
           if (cancel) cancel();
           // history.push("/without");
         }

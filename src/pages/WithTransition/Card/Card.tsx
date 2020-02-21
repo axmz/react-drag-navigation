@@ -18,7 +18,7 @@ const Card: React.FC<Props> = ({ children }) => {
   return (
     <>
       {id ? (
-        <Link to={`/`}>
+        <Link to={`/with`}>
           <div className="Card__container">
             <div className={cls}>
               <div className="Card__number">

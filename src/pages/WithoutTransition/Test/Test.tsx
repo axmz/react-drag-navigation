@@ -1,11 +1,11 @@
 import React from "react";
 import DragWrapper from "../DragWrapper/DragWrapper4";
-import Card from "../../../components/Card/Card";
+import Card from "../../WithTransition/Card/Card";
 
 const Test = () => {
   return (
     <DragWrapper>
-      {/* <Card /> */}
+      <Card />
     </DragWrapper>
   );
 };

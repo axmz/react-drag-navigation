@@ -1,18 +1,20 @@
-import React, {
-  ReactNode,
-  useEffect,
-  useState,
-  useRef,
-  useCallback
-} from "react";
+import React, { ReactNode, useEffect, useState, useRef, useMemo } from "react";
 import { animated, useSprings } from "react-spring";
+import { useHistory } from "react-router-dom";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
-import Card from "../../../components/Card/Card";
+import Card from "../../WithoutTransition/Card/Card";
 import styles from "./drag.module.scss";
-import { useHistory } from "react-router-dom";
+if (process.env.NODE_ENV === "development") {
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+  whyDidYouRender(React);
+}
 
-const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
+type Props = {children: ReactNode} & {whyDidYouRender?: any}
+const DragWrapper: React.FC<Props> = ({
+  children
+}) => {
+  console.log("render");
   const [atTop, setAtTop] = useState(true);
   const arr = [1, 2, 3];
   const l = arr.length;
@@ -20,14 +22,16 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   const top = useRef(0);
   const history = useHistory();
 
-  const next = useCallback(() => {
-    return top.current + 1 > last ? 0 : top.current + 1;
+  const next = useMemo(() => {
+    const next = top.current + 1 > last ? 0 : top.current + 1;
+    console.log("next", next);
+    return next;
   }, [top.current]);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollListener);
     return () => window.removeEventListener("scroll", scrollListener);
-  });
+  }, []);
 
   function scrollListener() {
     if (window.scrollY < 3) {
@@ -37,77 +41,88 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
     }
   }
 
+  const topStyle = {
+    // top: `${i * 100}px`,
+    y: 0,
+    scale: 1,
+    opacity: 1,
+    zIndex: 1002,
+    display: "block"
+  };
+
+  const nextStyle = {
+    // top: `${i * 100}px`,
+    y: 0,
+    scale: 0.75,
+    opacity: 1,
+    zIndex: 1001,
+    display: "block"
+  };
+
+  const otherStyle = {
+    // top: `${i * 100}px`,
+    y: 0,
+    scale: 0.75,
+    opacity: 1,
+    zIndex: 100,
+    display: "block"
+  };
+
   const [springs, set] = useSprings(3, i => {
-    // common props, put them separately in class
     if (i === top.current) {
       return {
-        // top: `${i * 100}px`,
-        y: 0,
-        scale: 1,
-        opacity: 1,
-        zIndex: 1002,
-        display: "block"
+        ...topStyle
       };
     }
-    if (i === next()) {
+    if (i === next) {
       return {
-        y: 0,
-        // top: `${i * 100}px`,
-        scale: 0.5,
-        opacity: 1,
-        display: "block",
-        zIndex: 1001
+        ...nextStyle
       };
     }
     return {
-      // top: `${i * 100}px`,
-      y: 0,
-      scale: 0.5,
-      opacity: 1,
-      zIndex: 1000,
-      display: "none"
+      ...otherStyle
     };
   });
 
   const bind = useDrag(
     ({ args: [index], event, cancel, last, down, movement: [mx, my] }) => {
       if (atTop) {
-        // other cases
         set(i => {
           if (i === top.current) {
             return {
-              // x: down ? mx : 0,
-              y: down ? my : 0,
-              scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1,
+              ...topStyle,
               // filter: down ? `brightness(${clamp(1 - my * 0.001, 0.7, 1) * 100}%)`: 'none',
-              //   userSelect: y.to(v => (v > 0 ? "none" : "auto")),
-              display: "block",
-              zIndex: 1002
+              // userSelect: y.to(v => (v > 0 ? "none" : "auto")),
+              y: down ? my : 0,
+              scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1
             };
           }
-          if (i === next()) {
+          if (i === next) {
             return {
-              y: down ? clamp(0 - my * 2, 0, 100) : 0,
-              //   y: y.to(y => clamp(0 - y * 2, -200, 100)),
-              // top: `${i * 100}px`,
-              opacity: 1,
-              scale: down ? clamp(0.5 + my * 0.0025, 0.5, 1) : 0.5,
-              display: "block",
-              zIndex: 1001
+              ...nextStyle,
+              y: down ? clamp(0 - my * 2, -10, 100) : 0,
+              scale: down ? clamp(0.75 + my * 0.0025, 0.75, 1) : 0.75
             };
           }
           return {
-            display: "none",
-            zIndex: 1000
+            ...otherStyle
+            // opacity: 0,
           };
         });
-
         // exit
         if (my > 150 && !last) {
+          // set(i => {
+          //   if (i === top.current) {
+          //     return {
+          //       zIndex: 100
+          //       // display: 'none'
+          //     };
+          //   }
+          //   return {};
+          // });
+          top.current = next;
           if (cancel) cancel();
-          top.current = next();
-          history.push("/test/1");
-          console.log("go back");
+          // history.push("/without");
         }
       }
     }
@@ -124,6 +139,8 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
             style={props}
           >
             <Card>{i}</Card>
+            {/* {children} */}
+            {/* {children ? React.cloneElement(children as HTMLDivElement, { children: i }) : null} */}
           </animated.div>
         );
       })}
@@ -131,4 +148,5 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
+(DragWrapper as any).whyDidYouRender = true;
 export default DragWrapper;

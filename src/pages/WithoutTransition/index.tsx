@@ -4,13 +4,11 @@ import Test from "./Test/Test";
 
 const WithoutTransition = () => {
   return (
-    <div className="App__container">
     <Switch>
-      <Route  path="/">
+      <Route path="/">
         <Test />
       </Route>
      </Switch>
-     </div>
   );
 };
 

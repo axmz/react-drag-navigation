@@ -20,13 +20,14 @@ const DragWrapper: React.FC<Props> = ({
   const l = arr.length;
   const last = l - 1;
   const top = useRef(0);
+  // const [top, setTop] = useState(true);
   const history = useHistory();
 
   const next = useMemo(() => {
     const next = top.current + 1 > last ? 0 : top.current + 1;
     console.log("next", next);
     return next;
-  }, [top.current]);
+  }, [top]);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollListener);

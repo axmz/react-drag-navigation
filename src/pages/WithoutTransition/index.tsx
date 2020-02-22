@@ -2,9 +2,7 @@ import React from "react";
 import Test from "./Test/Test";
 
 const WithoutTransition = () => {
-  return (
-        <Test />
-  );
+  return <Test />;
 };
 
 export default WithoutTransition;

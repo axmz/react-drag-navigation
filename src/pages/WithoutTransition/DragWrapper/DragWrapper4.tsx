@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState, useRef, useMemo } from "react";
+import React, { ReactNode, useEffect, useState, useMemo } from "react";
 import { animated, useSprings } from "react-spring";
 import { useHistory } from "react-router-dom";
 import { useDrag } from "react-use-gesture";
@@ -9,6 +9,12 @@ import styles from "./drag.module.scss";
 type Props = {
   children: ReactNode;
 };
+
+export type Status = {
+  isLoading: boolean;
+  isLoaded: boolean;
+};
+
 const DragWrapper: React.FC<Props> = ({ children }) => {
   const [atTop, setAtTop] = useState(true);
   const arr = [1, 2, 3];
@@ -16,6 +22,10 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
   const last = l - 1;
   const [top, setTop] = useState(0);
   const history = useHistory();
+  const [status, setStatus] = useState<Status>({
+    isLoading: false,
+    isLoaded: false
+  });
 
   const next = top + 1 > last ? 0 : top + 1;
 
@@ -33,33 +43,30 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
   }
 
   const topStyle = {
-    // top: `${i * 100}px`,
     y: 0,
     scale: 1,
     opacity: 1,
     zIndex: 1002,
     display: "block",
-    touchAction: "auto",
+    touchAction: "auto"
   };
 
   const nextStyle = {
-    // top: `${i * 100}px`,
     y: 0,
     scale: 0.75,
     opacity: 0,
     zIndex: 1001,
     display: "block",
-    touchAction: "none",
+    touchAction: "none"
   };
 
   const otherStyle = {
-    // top: `${i * 100}px`,
     y: 0,
     scale: 0.75,
     opacity: 0,
     zIndex: 1000,
     display: "block",
-    touchAction: "none",
+    touchAction: "none"
   };
 
   const [springs, set] = useSprings(3, i => {
@@ -78,7 +85,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     };
   });
 
-  const bind = useDrag(({ cancel, last, down, movement: [_, my] }) => {
+  const bind = useDrag(({args: [index], cancel, last, down, movement: [_, my] }) => {
     if (atTop) {
       set(i => {
         if (i === top) {
@@ -105,25 +112,28 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
       if (my > 150 && !last) {
         setTop(next);
         if (cancel) cancel();
-        // history.push("/without");
+        history.push(`/without/${index}`);
+        // history.goBack();
       }
     }
   });
+  console.log("render phase");
 
   const Spring = useMemo(() => {
+    console.log("Spring");
     return springs.map((props, i) => {
       return (
         <animated.div
-          {...bind()}
+          {...bind(i)}
           key={i}
           className={styles.common}
           style={props}
         >
-          <Card>{i}</Card>
+          {children}
         </animated.div>
       );
     });
-  }, []);
+  }, [status, bind]);
 
   return <>{Spring}</>;
 };

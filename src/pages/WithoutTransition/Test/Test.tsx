@@ -11,17 +11,17 @@ const Test = () => {
     <Provider>
       <DragWrapper>
         <Card>
-          <Switch>
+          {/* <Switch> */}
             <Route path="/without/1">
-              <div>Component from route 1</div>
+              <div>Route 1 component</div>
             </Route>
             <Route path="/without/2">
-              <div>Component from route 2</div>
+              <div>Route 2 component</div>
             </Route>
             <Route path="/without">
-              <div>Component from route 0</div>
+              <div>Route 0 component</div>
             </Route>
-          </Switch>
+          {/* </Switch> */}
         </Card>
       </DragWrapper>
     </Provider>

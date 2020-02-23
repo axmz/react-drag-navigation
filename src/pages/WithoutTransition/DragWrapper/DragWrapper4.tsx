@@ -1,9 +1,16 @@
-import React, { useEffect, useState, useMemo, ReactElement, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  ReactElement,
+  useContext
+} from "react";
 import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
 import styles from "./drag.module.scss";
 import { Context } from "../Context/context";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   children: ReactElement;
@@ -13,7 +20,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
   console.log("render phase");
   const [atTop, setAtTop] = useState(true);
   const ctx = useContext(Context);
-  const {arr, setArr} = ctx;
+  const { arr, setArr } = ctx;
   // const arr = [
   //   { route: "/", called: false },
   //   { route: "/1", called: false },
@@ -23,6 +30,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
   const last = l - 1;
   const [top, setTop] = useState(0);
   const next = top + 1 > last ? 0 : top + 1;
+  const history = useHistory();
 
   useEffect(() => {
     window.addEventListener("scroll", scrollListener);
@@ -87,6 +95,10 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     ({ args: [index], cancel, first, last, down, movement: [_, my] }) => {
       if (atTop) {
         if (first) {
+          const tempArr = [...arr]
+          tempArr[next].called=true
+
+          setArr(tempArr)
         }
 
         set(i => {
@@ -114,6 +126,8 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         if (my > 150 && !last) {
           setTop(next);
           if (cancel) cancel();
+          console.log(history)
+          history.push(arr[next].route)
         }
       }
     }
@@ -126,7 +140,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         children,
         (child: ReactElement) => {
           return React.cloneElement(child, {
-            ...arr[i]
+            index: i
           });
         }
       );

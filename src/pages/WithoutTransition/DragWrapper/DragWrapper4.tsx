@@ -5,7 +5,6 @@ import React, {
   ReactElement
 } from "react";
 import { animated, useSprings } from "react-spring";
-import { useHistory } from "react-router-dom";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
 import styles from "./drag.module.scss";
@@ -21,7 +20,8 @@ export type Status = {
 
 const DragWrapper: React.FC<Props> = ({ children }) => {
   const [atTop, setAtTop] = useState(true);
-  const arr = [{ route: "/" }, { route: "/1" }, { route: "/2" }];
+  const arr = [{ route: "/", called: false }, { route: "/1", called: false }, { route: "/2", called: false }];
+  // const [ arr, setArr ] = useState([{ route: "/" }, { route: "/1" }, { route: "/2" }]);
   const l = arr.length;
   const last = l - 1;
   const [top, setTop] = useState(0);
@@ -116,6 +116,8 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         if (my > 150 && !last) {
           setTop(next);
           if (cancel) cancel();
+          // setArr([...arr, {route: '/3'}])
+          // arr.push({route: '/3'})
           // history.push(`/without/${index}`);
           // history.goBack();
         }
@@ -131,8 +133,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         children,
         (child: ReactElement, idx) => {
           return React.cloneElement(child, {
-            route: arr[i].route,
-            status
+            ...arr[i]
           });
         }
       );

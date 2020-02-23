@@ -1,35 +1,27 @@
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  ReactElement
-} from "react";
+import React, { useEffect, useState, useMemo, ReactElement, useContext } from "react";
 import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
 import styles from "./drag.module.scss";
+import { Context } from "../Context/context";
 
 type Props = {
   children: ReactElement;
 };
 
-export type Status = {
-  isLoading: boolean;
-  isLoaded: boolean;
-};
-
 const DragWrapper: React.FC<Props> = ({ children }) => {
+  console.log("render phase");
   const [atTop, setAtTop] = useState(true);
-  const arr = [{ route: "/", called: false }, { route: "/1", called: false }, { route: "/2", called: false }];
-  // const [ arr, setArr ] = useState([{ route: "/" }, { route: "/1" }, { route: "/2" }]);
+  const ctx = useContext(Context);
+  const {arr, setArr} = ctx;
+  // const arr = [
+  //   { route: "/", called: false },
+  //   { route: "/1", called: false },
+  //   { route: "/2", called: false }
+  // ];
   const l = arr.length;
   const last = l - 1;
   const [top, setTop] = useState(0);
-  const [status, setStatus] = useState<Status>({
-    isLoading: false,
-    isLoaded: false
-  });
-
   const next = top + 1 > last ? 0 : top + 1;
 
   useEffect(() => {
@@ -45,56 +37,62 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     }
   }
 
-  const topStyle = {
+  const topProps = {
     y: 0,
     scale: 1,
     opacity: 1,
     zIndex: 1002,
     display: "block",
-    touchAction: "auto"
+    touchAction: "auto",
+    onStart: () => {}
   };
 
-  const nextStyle = {
+  const nextProps = {
     y: 0,
     scale: 0.75,
     opacity: 0,
     zIndex: 1001,
     display: "block",
-    touchAction: "none"
+    touchAction: "none",
+    onStart: () => {}
   };
 
-  const otherStyle = {
+  const restProps = {
     y: 0,
     scale: 0.75,
     opacity: 0,
     zIndex: 1000,
     display: "block",
-    touchAction: "none"
+    touchAction: "none",
+    onStart: () => {}
   };
 
   const [springs, set] = useSprings(l, i => {
     if (i === top) {
       return {
-        ...topStyle
+        ...topProps
       };
     }
     if (i === next) {
       return {
-        ...nextStyle
+        ...nextProps
       };
     }
     return {
-      ...otherStyle
+      ...restProps
     };
   });
 
   const bind = useDrag(
-    ({ args: [index], cancel, last, down, movement: [_, my] }) => {
+    ({ args: [index], cancel, first, last, down, movement: [_, my] }) => {
       if (atTop) {
+        if (first) {
+        }
+
         set(i => {
           if (i === top) {
             return {
-              ...topStyle,
+              ...topProps,
               opacity: down ? clamp(1 - my * 0.0025, 0.5, 1) : 1,
               y: down ? my : 0,
               scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1
@@ -102,36 +100,31 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
           }
           if (i === next) {
             return {
-              ...nextStyle,
+              ...nextProps,
               opacity: down ? clamp(0.5 + my * 0.0025, 0.5, 1) : 0,
               y: down ? clamp(0 - my * 2, -10, 100) : 0,
               scale: down ? clamp(0.75 + my * 0.0025, 0.75, 1) : 0.75
             };
           }
           return {
-            ...otherStyle
+            ...restProps
           };
         });
-        // exit
+
         if (my > 150 && !last) {
           setTop(next);
           if (cancel) cancel();
-          // setArr([...arr, {route: '/3'}])
-          // arr.push({route: '/3'})
-          // history.push(`/without/${index}`);
-          // history.goBack();
         }
       }
     }
   );
-  console.log("render phase");
 
   const Spring = useMemo(() => {
     console.log("Spring");
     return springs.map((props, i) => {
       const updateChildrenWithRoute = React.Children.map(
         children,
-        (child: ReactElement, idx) => {
+        (child: ReactElement) => {
           return React.cloneElement(child, {
             ...arr[i]
           });
@@ -148,7 +141,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         </animated.div>
       );
     });
-  }, [status, bind]);
+  }, [bind]);
 
   return <>{Spring}</>;
 };

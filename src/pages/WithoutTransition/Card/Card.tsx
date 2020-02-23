@@ -1,7 +1,6 @@
-import React, { ReactNode, ReactElement } from "react";
+import React  from "react";
 import { Link } from "react-router-dom";
 import "./Card-styles.scss";
-import { Status } from "../DragWrapper/DragWrapper4";
 
 interface Props {
   route?: string;

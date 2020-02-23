@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./Card-styles.scss";
 
@@ -14,6 +14,9 @@ const Card: React.FC<Props> = ({ children }) => {
     content = id.repeat(390);
     cls = "Card__content active";
   }
+  useEffect(() => {
+  window.scrollTo(0, 0)
+}, [])
 
   return (
     <>

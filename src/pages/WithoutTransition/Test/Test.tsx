@@ -11,7 +11,7 @@ const Test = () => {
     <Provider>
       <DragWrapper>
         <Card>
-          {/* <Switch> */}
+          {/* <Switch>
             <Route path="/without/1">
               <div>Route 1 component</div>
             </Route>
@@ -21,7 +21,7 @@ const Test = () => {
             <Route path="/without">
               <div>Route 0 component</div>
             </Route>
-          {/* </Switch> */}
+          </Switch> */}
         </Card>
       </DragWrapper>
     </Provider>

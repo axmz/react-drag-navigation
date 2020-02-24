@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const defaultArr = [
-  { route: "/without/", called: false },
+  { route: "/without/", called: true },
   { route: "/without/1", called: false },
   { route: "/without/2", called: false }
 ];

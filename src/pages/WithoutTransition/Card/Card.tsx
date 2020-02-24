@@ -26,7 +26,7 @@ const Card: React.FC<Props> = ({ index, children }) => {
       <div className="Card__container">
         <div className="Card__content">
           <div className="Card__number">
-            <div className="Card__number--small">{route}</div>
+            {/* <div className="Card__number--small">{route}</div> */}
             <div className="Card__number--small">{status}</div>
             <div className="Card__number--small">
                 <Route path={route}>

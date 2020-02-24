@@ -52,7 +52,9 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     zIndex: 1002,
     display: "block",
     touchAction: "auto",
-    onStart: () => {}
+    perspective: "10000px",
+    perspectiveOrigin: "50% 50%",
+    transformStyle: 'preserve-3d' as 'preserve-3d',
   };
 
   const nextProps = {
@@ -62,7 +64,6 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     zIndex: 1001,
     display: "block",
     touchAction: "none",
-    onStart: () => {}
   };
 
   const restProps = {
@@ -72,7 +73,6 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     zIndex: 1000,
     display: "block",
     touchAction: "none",
-    onStart: () => {}
   };
 
   const [springs, set] = useSprings(l, i => {
@@ -95,10 +95,10 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     ({ args: [index], cancel, first, last, down, movement: [_, my] }) => {
       if (atTop) {
         if (first) {
-          const tempArr = [...arr]
-          tempArr[next].called=true
+          const tempArr = [...arr];
+          tempArr[next].called = true;
 
-          setArr(tempArr)
+          setArr(tempArr);
         }
 
         set(i => {
@@ -107,7 +107,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
               ...topProps,
               opacity: down ? clamp(1 - my * 0.0025, 0.5, 1) : 1,
               y: down ? my : 0,
-              scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1
+              scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1, 
             };
           }
           if (i === next) {
@@ -126,8 +126,8 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         if (my > 150 && !last) {
           setTop(next);
           if (cancel) cancel();
-          console.log(history)
-          history.push(arr[next].route)
+          console.log(history);
+          history.push(arr[next].route);
         }
       }
     }
@@ -151,7 +151,14 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
           className={styles.common}
           style={props}
         >
+          <animated.div
+            style={{
+              rotateX: props.y.to(y => clamp(0 - y * .25, -55, 0)),
+              transformOrigin: 'center'
+            }}
+          >
           {updateChildrenWithRoute}
+          </animated.div>
         </animated.div>
       );
     });

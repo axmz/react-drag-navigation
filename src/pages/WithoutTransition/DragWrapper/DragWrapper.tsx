@@ -17,15 +17,9 @@ type Props = {
 };
 
 const DragWrapper: React.FC<Props> = ({ children }) => {
-  console.log("render phase");
   const [atTop, setAtTop] = useState(true);
   const ctx = useContext(Context);
   const { arr, setArr } = ctx;
-  // const arr = [
-  //   { route: "/", called: false },
-  //   { route: "/1", called: false },
-  //   { route: "/2", called: false }
-  // ];
   const l = arr.length;
   const last = l - 1;
   const [top, setTop] = useState(0);
@@ -52,9 +46,6 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     zIndex: 1002,
     display: "block",
     touchAction: "auto",
-    perspective: "10000px",
-    perspectiveOrigin: "50% 50%",
-    transformStyle: 'preserve-3d' as 'preserve-3d',
   };
 
   const nextProps = {
@@ -126,7 +117,6 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         if (my > 150 && !last) {
           setTop(next);
           if (cancel) cancel();
-          console.log(history);
           history.push(arr[next].route);
         }
       }
@@ -134,7 +124,6 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
   );
 
   const Spring = useMemo(() => {
-    console.log("Spring");
     return springs.map((props, i) => {
       const updateChildrenWithRoute = React.Children.map(
         children,

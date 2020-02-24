@@ -4,4 +4,7 @@
   transform-origin: top center;
   user-select: none;
   top: 0;
+  perspective: "5000px";
+  perspective-origin: "50% 50%";
+  transform-style: "preserve-3d" as "preserve-3d";
 }

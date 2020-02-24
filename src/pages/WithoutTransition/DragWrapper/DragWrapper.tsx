@@ -66,7 +66,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
   };
 
   const restProps = {
-    y: 0,
+    y: 1000,
     scale: 0.75,
     opacity: 0,
     zIndex: 1000,

@@ -7,8 +7,7 @@ const WithoutTransition = () => {
   return (
     <Provider>
       <DragWrapper>
-        <Card>
-        </Card>
+        <Card/>
       </DragWrapper>
     </Provider>
   );

@@ -3,9 +3,14 @@ import { useHistory } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks
+} from "body-scroll-lock";
 
-const DragWrapper: React.FC<{children: ReactNode}> = ({children}) => {
-  const myRef = React.useRef(null);
+const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const myRef = React.useRef<HTMLDivElement>(null);
   const history = useHistory();
   const [atTop, setAtTop] = useState(true);
 
@@ -22,24 +27,21 @@ const DragWrapper: React.FC<{children: ReactNode}> = ({children}) => {
     }
   }
 
-  const [props, set ] = useSpring(() => ({ x: 0, y: 0, scale: 1 }));
+  const [props, set] = useSpring(() => ({ x: 0, y: 0, scale: 1 }));
   const { x, y } = props;
   const bind = useDrag(
-    ({ event, cancel, last, down, movement: [mx, my] }) => {
+    ({ cancel, last, down, movement: [mx, my], delta: [dx, dy] }) => {
       if (atTop) {
-        // console.log("my", my);
-        // console.log("last", last);
-        // console.log("event", event);
-        if (my < 150 && last && event?.type === "mouseup") {
-          set({ x: 0, y: 0 });
-          event?.preventDefault();
-          event?.stopPropagation();
+        if (myRef.current && down && my > 0 && dy <= 0) {
+          disableBodyScroll(myRef.current);
+        } else {
+          clearAllBodyScrollLocks();
         }
+        set({ x: down ? mx : 0, y: down ? my : 0 });
         if (my > 150 && !last) {
           history.goBack();
           cancel ? cancel() : console.log("nothing");
         }
-        set({ x: down ? mx : 0, y: down ? my : 0 });
       }
     },
     {

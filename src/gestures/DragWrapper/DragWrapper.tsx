@@ -3,23 +3,21 @@ import React, {
   useState,
   useMemo,
   ReactElement,
-  useContext
 } from "react";
+import styles from "./drag.module.scss";
+import { useHistory } from "react-router-dom";
 import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
-import styles from "./drag.module.scss";
-import { Context } from "../Context/context";
-import { useHistory } from "react-router-dom";
 
 type Props = {
   children: ReactElement;
+  context: any; // change 
 };
 
-const DragWrapper: React.FC<Props> = ({ children }) => {
+const DragWrapper: React.FC<Props> = ({ children, context }) => {
   const [atTop, setAtTop] = useState(true);
-  const ctx = useContext(Context);
-  const { arr, setArr } = ctx;
+  const { arr, setArr } = context;
   const l = arr.length;
   const last = l - 1;
   const [top, setTop] = useState(0);
@@ -45,7 +43,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     opacity: 1,
     zIndex: 1002,
     display: "block",
-    touchAction: "auto",
+    touchAction: "auto"
   };
 
   const nextProps = {
@@ -54,7 +52,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     opacity: 0,
     zIndex: 1001,
     display: "block",
-    touchAction: "none",
+    touchAction: "none"
   };
 
   const restProps = {
@@ -63,7 +61,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
     opacity: 0,
     zIndex: 1000,
     display: "block",
-    touchAction: "none",
+    touchAction: "none"
   };
 
   const [springs, set] = useSprings(l, i => {
@@ -88,7 +86,6 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         if (first) {
           const tempArr = [...arr];
           tempArr[next].called = true;
-
           setArr(tempArr);
         }
 
@@ -98,7 +95,7 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
               ...topProps,
               opacity: down ? clamp(1 - my * 0.0025, 0.5, 1) : 1,
               y: down ? my : 0,
-              scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1, 
+              scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1
             };
           }
           if (i === next) {
@@ -117,7 +114,9 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         if (my > 150 && !last) {
           setTop(next);
           if (cancel) cancel();
-          history.push(arr[next].route);
+          const root = "/" + history.location.pathname.split("/")[1];
+          const path = root + arr[next].route;
+          history.push(path);
         }
       }
     }
@@ -142,11 +141,11 @@ const DragWrapper: React.FC<Props> = ({ children }) => {
         >
           <animated.div
             style={{
-              rotateX: props.y.to(y => clamp(0 - y * .25, -55, 0)),
-              transformOrigin: 'center'
+              rotateX: props.y.to(y => clamp(0 - y * 0.25, -55, 0)),
+              transformOrigin: "center"
             }}
           >
-          {updateChildrenWithRoute}
+            {updateChildrenWithRoute}
           </animated.div>
         </animated.div>
       );

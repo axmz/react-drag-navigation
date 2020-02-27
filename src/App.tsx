@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import "./App.scss";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import WithTransition from "./pages/WithTransition";
-import WithoutTransition from "./pages/WithoutTransition";
+import WithRoute from "./pages/WithRoute";
+import WithLoading from "./pages/WithLoading";
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -17,11 +18,19 @@ const App: React.FC = () => {
               <WithTransition />
             </Route>
             <Route path="/without">
-              <WithoutTransition />
+              <WithRoute />
+            </Route>
+            <Route path="/with-loading">
+              <WithLoading />
+            </Route>
+            <Route path="/with-back">
+              <WithLoading />
             </Route>
             <Route exact path="/">
-              <Link to="/with">With Transition</Link>
-              <Link to="/without">Without Transition</Link>
+              <Link to="/with">With transition</Link>
+              <Link to="/without/0">With route</Link>
+              <Link to="/with-loading/0">With loading</Link>
+              <Link to="/with-back/">With back</Link>
             </Route>
           </Switch>
         </Router>

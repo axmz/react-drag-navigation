@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
 const defaultArr = [
-  { route: "/without/", called: true },
-  { route: "/without/1", called: false },
-  { route: "/without/2", called: false }
+  { route: "/0", called: true },
+  { route: "/1", called: false },
+  { route: "/2", called: false },
+  { route: "/3", called: false },
+  { route: "/4", called: false }
 ];
 const setArr: any = () => {}
 const value = { arr: defaultArr, setArr };

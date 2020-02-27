@@ -1,6 +1,7 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import TransitionWrapper from "../TransitionWrapper/TransitionWrapper";
 import DragWrapper from "../DragWrapper/DragWrapper";
+
 
 interface Props {
   children: ReactNode;
@@ -8,7 +9,7 @@ interface Props {
 
 const AnimationWrapper: React.FC<Props> = ({ children }) => {
   return (
-    <DragWrapper>
+    <DragWrapper >
       <TransitionWrapper>{children}</TransitionWrapper>
     </DragWrapper>
   );

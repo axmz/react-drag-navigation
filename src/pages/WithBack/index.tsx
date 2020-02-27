@@ -1,14 +1,15 @@
-import React from "react";
+import React  from "react";
 import { Provider } from "./Context/context";
-import DragWrapper from "./DragWrapper/DragWrapper";
+
 import Card from "./Card/Card";
+import DragSettings from "./DragSettings/DragSettings";
 
 const WithoutTransition = () => {
   return (
     <Provider>
-      <DragWrapper>
+      <DragSettings>
         <Card/>
-      </DragWrapper>
+      </DragSettings>
     </Provider>
   );
 };

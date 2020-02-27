@@ -32,11 +32,11 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
   const bind = useDrag(
     ({ cancel, last, down, movement: [mx, my], delta: [dx, dy] }) => {
       if (atTop) {
-        if (myRef.current && down && my > 0 && dy <= 0) {
-          disableBodyScroll(myRef.current);
-        } else {
-          clearAllBodyScrollLocks();
-        }
+        // if (myRef.current && down && my > 0 && dy <= 0) {
+        //   disableBodyScroll(myRef.current);
+        // } else {
+        //   clearAllBodyScrollLocks();
+        // }
         set({ x: down ? mx : 0, y: down ? my : 0 });
         if (my > 150 && !last) {
           history.goBack();

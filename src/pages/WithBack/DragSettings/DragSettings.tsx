@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../Context/context";
-import DragWrapper from "../../../gestures/DragWrapper/DragWrapper";
+import DragWrapper from "../../../gestures/DragWrapper/DragWrapperBack";
 import Card from "../Card/Card";
 
 const DragSettings: React.FC<{}> = () => {

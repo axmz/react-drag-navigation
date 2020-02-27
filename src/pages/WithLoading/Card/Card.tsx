@@ -10,7 +10,7 @@ const Card: React.FC<Props> = ({ index }) => {
   const ctx = useContext(Context);
   const { arr } = ctx;
   const i = index!;
-  const { route, called } = arr[i];
+  const { called } = arr[i];
   const [status, setStatus] = useState("not called");
   useEffect(() => {
     if (called) {

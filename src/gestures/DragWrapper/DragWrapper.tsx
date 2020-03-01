@@ -17,10 +17,10 @@ type Props = {
 
 const DragWrapper: React.FC<Props> = ({ children, context }) => {
   const [atTop, setAtTop] = useState(true);
-  const { arr, setArr } = context;
+  const { arr, setArr, top, setTop } = context;
   const l = arr.length;
   const last = l - 1;
-  const [top, setTop] = useState(0);
+  // const [top, setTop] = useState(0);
   const next = top + 1 > last ? 0 : top + 1;
   const history = useHistory();
 

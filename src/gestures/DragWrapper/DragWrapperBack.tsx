@@ -10,6 +10,8 @@ import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
 
+
+
 type Props = {
   children: ReactElement;
   context: any; // change 
@@ -17,13 +19,13 @@ type Props = {
 
 const DragWrapper: React.FC<Props> = ({ children, context }) => {
   const [atTop, setAtTop] = useState(true);
-  const { arr, setArr } = context;
+  const { arr, setArr, top, setTop } = context;
   const l = arr.length;
   const last = l - 1;
-  const [top, setTop] = useState(0);
+  // const [top, setTop] = useState(0);
   const next = top + 1 > last ? 0 : top + 1;
   const history = useHistory();
-
+  console.log('history', window.history)
   useEffect(() => {
     window.addEventListener("scroll", scrollListener);
     return () => window.removeEventListener("scroll", scrollListener);
@@ -102,7 +104,7 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
             return {
               ...nextProps,
               opacity: down ? clamp(0.5 + my * 0.0025, 0.5, 1) : 0,
-              y: down ? clamp(0 - my * 2, -10, 100) : 0,
+              y: down ? clamp(-10 + my * .06, -10, 100) : 0,
               scale: down ? clamp(0.75 + my * 0.0025, 0.75, 1) : 0.75
             };
           }
@@ -114,9 +116,7 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
         if (my > 150 && !last) {
           setTop(next);
           if (cancel) cancel();
-          const root = "/" + history.location.pathname.split("/")[1];
-          const path = root + arr[next].route;
-          history.push(path);
+          history.go(-1)
         }
       }
     }

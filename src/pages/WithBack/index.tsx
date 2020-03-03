@@ -11,7 +11,6 @@ const WithBack = () => {
     <LastLocationProvider>
       <Provider>
         <div>
-
         {/* <TransitionWrapper> */}
           <DragSettings>
             <Card />

@@ -4,7 +4,7 @@ import React, {
   useMemo,
   ReactElement,
 } from "react";
-import styles from "./drag.module.scss";
+import styles from "./common.module.scss";
 import { useHistory, useLocation } from "react-router-dom";
 import { useLastLocation } from "react-router-last-location";
 import { animated, useSprings } from "react-spring";
@@ -117,7 +117,7 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
         if (my > 150 && !last) {
           dispatch({type: "SET_TOP", payload: next})
           if (cancel) cancel();
-          history.go(-1)
+          history.goBack();
         }
       }
     }

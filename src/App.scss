@@ -9,9 +9,4 @@
   min-height: 100vh;
   font-size: calc(100px + 2vmin);
   position: relative;
-  & > div {
-    top: 1.2rem;
-    position: relative;
-    width: 350px;
-  }
 }

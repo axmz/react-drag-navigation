@@ -38,7 +38,7 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
         //   clearAllBodyScrollLocks();
         // }
         set({ x: down ? mx : 0, y: down ? my : 0 });
-        if (my > 150 && !last) {
+        if (my > 200 && !last) {
           history.goBack();
           cancel ? cancel() : console.log("nothing");
         }
@@ -58,7 +58,7 @@ const DragWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
       style={{
         x,
         y,
-        scale: y.to(y => clamp(1 + y * 0.005, 1, 2)),
+        scale: y.to(y => clamp(1 + y * 0.002, 1, 2)),
         opacity: y.to(y => clamp(1 - y * 0.008, 0.2, 1)),
         userSelect: y.to(v => (v > 0 ? "none" : "auto")),
         transformOrigin: "top center"

@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import "./Card-styles.scss";
+import styles from './styles.module.scss'
 
 interface Props {
   children?: ReactNode;
@@ -9,10 +9,10 @@ interface Props {
 const Card: React.FC<Props> = ({ children }) => {
   const { id } = useParams();
   let content = "";
-  let cls = "Card__content";
+  let cls = styles.content;
   if (id) {
     content = id.repeat(390);
-    cls = "Card__content active";
+    cls = `${styles.content} ${styles.active}`;
   }
   useEffect(() => {
   window.scrollTo(0, 0)
@@ -22,33 +22,33 @@ const Card: React.FC<Props> = ({ children }) => {
     <>
       {id ? (
         <Link to={`/with`}>
-          <div className="Card__container">
+          <div className={ styles.container }>
             <div className={cls}>
-              <div className="Card__number">
-                <div className="Card__number--small">{content}</div>
+              <div className={ styles.number }>
+                <div className={ styles['number--small'] }>{content}</div>
               </div>
             </div>
           </div>
-          <div className="Card__container">
+          <div className={ styles.container }>
             <div className={cls}>
-              <div className="Card__number">
-                <div className="Card__number--small">{content}</div>
+              <div className={ styles.number }>
+                <div className={ styles['number--small'] }>{content}</div>
               </div>
             </div>
           </div>
-          <div className="Card__container">
+          <div className={ styles.container }>
             <div className={cls}>
-              <div className="Card__number">
-                <div className="Card__number--small">{content}</div>
+              <div className={ styles.number }>
+                <div className={ styles['number--small'] }>{content}</div>
               </div>
             </div>
           </div>
         </Link>
       ) : (
-        <div className="Card__container">
+        <div className={ styles.container }>
           <div className={cls}>
-            <div className="Card__number">
-              <div className="Card__number--large">{children}</div>
+            <div className={ styles.number }>
+              <div className={ styles['number--large'] }>{children}</div>
             </div>
           </div>
         </div>

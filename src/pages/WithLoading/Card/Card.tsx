@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import "./Card-styles.scss";
+import styles from "./styles.module.scss";
 import { Context } from "../Context/context";
 
 interface Props {
@@ -21,13 +21,13 @@ const Card: React.FC<Props> = ({ index }) => {
     }
   }, [called]);
   return (
-      <div className="Card__container">
-        <div className="Card__content">
-          <div className="Card__number">
-            <div className="Card__number--small">{status}</div>
-          </div>
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <div className={styles.number}>
+          <div className={styles["number--small"]}>{status}</div>
         </div>
       </div>
+    </div>
   );
 };
 

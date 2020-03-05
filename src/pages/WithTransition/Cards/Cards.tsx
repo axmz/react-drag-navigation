@@ -8,13 +8,13 @@ const Cards = () => {
   window.scrollTo(0, 0)
 }, [])
   return (
-    <div>
+    <>
       {data.map(item => (
-        <Link key={item} to={`/with/${item}`}>
+        <Link key={item} to={`/with/${item}`} >
           <Card>{item}</Card>
         </Link>
       ))}
-    </div>
+    </>
   );
 };
 

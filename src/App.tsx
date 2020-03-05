@@ -29,10 +29,10 @@ const App: React.FC = () => {
             <WithBack />
           </Route>
           <Route exact path="/">
-            <Link to="/with">With transition</Link>
-            <Link to="/with-route/0">With route</Link>
-            <Link to="/with-loading/0">With loading</Link>
-            <Link to="/with-back/">With back</Link>
+            <Link to="/with" className={'link'}>With transition</Link>
+            <Link to="/with-route/0" className={'link'}>With route</Link>
+            <Link to="/with-loading/0" className={'link'}>With loading</Link>
+            <Link to="/with-back/" className={'link'}>With back</Link>
           </Route>
         </Switch>
       </Router>

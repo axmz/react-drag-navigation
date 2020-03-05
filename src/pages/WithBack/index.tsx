@@ -10,13 +10,11 @@ const WithBack = () => {
   return (
     <LastLocationProvider>
       <Provider>
-        <div>
         {/* <TransitionWrapper> */}
           <DragSettings>
             <Card />
           </DragSettings>
         {/* </TransitionWrapper> */}
-        </div>
       </Provider>
     </LastLocationProvider>
   );

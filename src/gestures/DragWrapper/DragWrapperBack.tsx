@@ -1,27 +1,19 @@
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  ReactElement,
-} from "react";
+import React, { useEffect, useState, useMemo, ReactElement } from "react";
 import styles from "./common.module.scss";
-import { useHistory, useLocation } from "react-router-dom";
-import { useLastLocation } from "react-router-last-location";
+import { useHistory } from "react-router-dom";
 import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash.clamp";
 
-
 type Props = {
   children: ReactElement;
-  context: any; // change 
+  context: any; // change
 };
 
 const DragWrapper: React.FC<Props> = ({ children, context }) => {
   const [atTop, setAtTop] = useState(true);
-  // const { arr, setArr, top, setTop } = context;
-  const {state, dispatch} = context;
-  const { top} = state;
+  const { state, dispatch } = context;
+  const { top } = state;
   const l = 3;
   const last = l - 1;
   const next = top + 1 > last ? 0 : top + 1;
@@ -86,12 +78,6 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
   const bind = useDrag(
     ({ args: [index], cancel, first, last, down, movement: [_, my] }) => {
       if (atTop) {
-        // if (first) {
-        //   const tempArr = [...arr];
-        //   tempArr[next].called = true;
-        //   setArr(tempArr);
-        // }
-
         set(i => {
           if (i === top) {
             return {
@@ -105,7 +91,7 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
             return {
               ...nextProps,
               opacity: down ? clamp(0.5 + my * 0.0025, 0.5, 1) : 0,
-              y: down ? clamp(-10 + my * .06, -10, 100) : 0,
+              y: down ? clamp(-10 + my * 0.06, -10, 100) : 0,
               scale: down ? clamp(0.75 + my * 0.0025, 0.75, 1) : 0.75
             };
           }
@@ -115,9 +101,9 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
         });
 
         if (my > 150 && !last) {
-          dispatch({type: "SET_TOP", payload: next})
-          if (cancel) cancel();
           history.goBack();
+          dispatch({ type: "SET_TOP", payload: next });
+          if (cancel) cancel();
         }
       }
     }

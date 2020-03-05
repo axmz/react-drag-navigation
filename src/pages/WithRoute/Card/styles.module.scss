@@ -1,24 +1,25 @@
 .container {
   top: 1.2rem;
   position: relative;
-  width: 350px;
   height: 600px;
   margin-bottom: 1.2rem;
   padding: 1.2rem;
   border-radius: 25px;
-  background-color: powderblue;
+  background-color: white;
+  box-shadow: 0px 8px 28px 4px rgba(0, 0, 0, 0.1);
+  opacity: .8;
   .content {
     height: 100%;
     width: 100%;
     border-radius: 15px;
     color: plum;
-    background-color: floralwhite;
+    background-color: white;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     overflow: hidden;
     &.active {
-      color: floralwhite;
+      color: white;
       background-color: plum;
     }
     .number {
@@ -28,10 +29,7 @@
       }
       &--small {
         padding: 0.4rem;
-        font-size: calc(10px + 2vmin);
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        word-break: break-all;
+        font-size: calc(16px + 4vmin);
       }
     }
   }

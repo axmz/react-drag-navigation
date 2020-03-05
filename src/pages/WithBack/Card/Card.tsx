@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { Route, useLocation, Link, Switch } from "react-router-dom";
 import { Context } from "../Context/context";
 import styles from "./styles.module.scss";
@@ -12,23 +12,23 @@ interface Props {
 const Card: React.FC<Props> = ({ index }) => {
   const ctx = useContext(Context);
   const { state } = ctx!;
-  const { lastLocation, top } = state;
+  const { top } = state;
   const location = useLocation();
   const r = location.pathname.split("/");
   let pathname = "/" + r[r.length - 1];
 
   const root = (
     <>
-      <div>{`This is root component`}</div>
+      <div>{`This is the root component`}</div>
       <br />
       <Link to={`/with-back/child`} className={styles.content} style={{textDecoration: 'underline'}}>
-        Link to child component
+        Link to child route
       </Link>
     </>
   );
 
-  const child =
-    index === top ? (
+  const child = useMemo(() => {
+    return index === top ? (
       <>
         <div>{`This is ${pathname} component`}</div>
         <br />
@@ -37,6 +37,7 @@ const Card: React.FC<Props> = ({ index }) => {
     ) : (
       <>{root}</>
     );
+  }, [location])
 
   return (
     <div className={styles.container}>

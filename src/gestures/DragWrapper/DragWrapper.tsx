@@ -93,7 +93,7 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
           if (i === top) {
             return {
               ...topProps,
-              opacity: down ? clamp(1 - my * 0.0025, 0.5, 1) : 1,
+              opacity: down ? clamp(1 - my * 0.0025, 0.75, 1) : 1,
               y: down ? my : 0,
               scale: down ? clamp(1 + my * 0.0025, 1, 2) : 1
             };
@@ -101,7 +101,7 @@ const DragWrapper: React.FC<Props> = ({ children, context }) => {
           if (i === next) {
             return {
               ...nextProps,
-              opacity: down ? clamp(0.5 + my * 0.0025, 0.5, 1) : 0,
+              opacity: down ? clamp(0.75 + my * 0.0025, 0.75, 1) : 0,
               y: down ? clamp(0 - my * 2, -10, 100) : 0,
               scale: down ? clamp(0.75 + my * 0.0025, 0.75, 1) : 0.75
             };

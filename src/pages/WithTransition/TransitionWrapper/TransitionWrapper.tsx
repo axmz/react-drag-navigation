@@ -9,9 +9,9 @@ interface Props {
 const TransitionWrapper: React.FC<Props> = ({ children }) => {
   const location = useLocation();
   const transitions = useTransition(location, location => location.pathname, {
-    initial: { transform: "translate3d(0,0px,0rem)", scale: 1, opacity: 1 },
+    initial: { transform: "translate3d(0px,10px,0rem)", scale: 1, opacity: 1 },
     from: { transform: "translate3d(0,10px,0rem)", scale: 0.9, opacity: 0.9 },
-    enter: { transform: "translate3d(0,0,0)", scale: 1, opacity: 1 },
+    enter: { transform: "translate3d(0,20px,0)", scale: 1, opacity: 1 },
     leave: { transform: "translate3d(0,10px,0)", scale: 0.9, opacity: 0.9 }
   });
 

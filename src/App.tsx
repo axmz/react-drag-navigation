@@ -16,9 +16,6 @@ const App: React.FC = () => {
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/with">
-            <WithTransition />
-          </Route>
           <Route path="/with-route">
             <WithRoute />
           </Route>
@@ -28,11 +25,14 @@ const App: React.FC = () => {
           <Route path="/with-back">
             <WithBack />
           </Route>
+          <Route path="/with">
+            <WithTransition />
+          </Route>
           <Route exact path="/">
-            <Link to="/with" className={'link'}>With transition</Link>
             <Link to="/with-route/0" className={'link'}>With route</Link>
             <Link to="/with-loading/0" className={'link'}>With loading</Link>
             <Link to="/with-back/" className={'link'}>With back</Link>
+            <Link to="/with" className={'link'}>With transition</Link>
           </Route>
         </Switch>
       </Router>

@@ -4,10 +4,10 @@ import React, {
   useMemo,
   ReactElement,
 } from "react";
-import styles from "./common.module.scss";
 import { useHistory } from "react-router-dom";
 import { animated, useSprings } from "react-spring";
 import { useDrag } from "react-use-gesture";
+import styles from "./common.module.scss";
 import clamp from "lodash.clamp";
 
 type Props = {

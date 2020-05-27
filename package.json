@@ -1,5 +1,6 @@
 {
   "name": "react-drag-navigation",
+  "homepage": "https://github.com/axmz/react-drag-navigation",
   "version": "0.1.0",
   "dependencies": {
     "@types/body-scroll-lock": "^2.6.1",

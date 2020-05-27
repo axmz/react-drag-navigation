@@ -1,5 +1,7 @@
 # Drag gesture navigation for web apps
 
+[try](https://codesandbox.io/s/github/axmz/react-drag-navigation)
+
 ## Examples:
 
 ### With Route

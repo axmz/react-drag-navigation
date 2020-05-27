@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ index }) => {
-  console.log('rf')
+  // console.log('rf')
   const { arr, top } = useContext(Context);
   const i = index!;
   const { route } = arr[i];
@@ -31,7 +31,7 @@ const Card: React.FC<Props> = ({ index }) => {
 
   return (
     <div className={styles.container}>
-      {console.log('return')}
+      {/* {console.log('return')} */}
       <div className={styles.content}>
         <div className={styles.number}>
           <div className={styles["number--small"]}>
